@@ -5,7 +5,7 @@ import scrape_mars
 app = Flask(__name__)
 
 # Use PyMongo to establish Mongo connection
-app.config["MONGO_URI"] = "mongodb://localhost:27017/craigslist_app"
+app.config["MONGO_URI"] = "mongodb://localhost:27017/scrape_mars_app"
 mongo = PyMongo(app)
 
 @app.route("/")
