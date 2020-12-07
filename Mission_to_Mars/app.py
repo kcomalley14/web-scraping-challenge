@@ -12,14 +12,14 @@ mongo = PyMongo(app)
 def home():
 
     mars_dict = mongo.db.mars_dict.find_one()
-    return render_template('index.html', mars=mars_dict)
+    return render_template('index.html', mars_dict=mars_dict)
 
 @app.route("/scrape")
 def scrape():
-
+  
     mars_dict = mongo.db.mars_dict
     mars_data = scrape_mars.scrape()
-
+    # Update the Mongo database using update and upsert=True
     mars_dict.update({}, mars_data, upsert=True)
     return redirect("/", code=302)
 

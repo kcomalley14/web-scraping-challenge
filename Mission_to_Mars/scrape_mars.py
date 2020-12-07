@@ -11,12 +11,16 @@ def init_browser():
     # Setup splinter
     executable_path = {"executable_path": "/Users/kyleomalley/Downloads/chromedriver"}
     return Browser('chrome', **executable_path, headless=False)
-    
+
+# executable_path = {'executable_path': ChromeDriverManager().install()}
+# browser = Browser('chrome', **executable_path, headless=False)
 
 # scrape function
 def scrape():
+    print("We are getting the data")
     browser = init_browser()
 
+    # print(mars_dict)
     #Mars News scraped
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
@@ -25,8 +29,6 @@ def scrape():
 
     news_title = soup.find_all('div', class_='content_title')[1].text
     news_p = soup.find('div', class_='article_teaser_body').text
-
-    print(news_p)
 
     # Mars image scraped
     image_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -50,6 +52,7 @@ def scrape():
     # Hemisphere Images scraped
     hemisphere_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.visit(hemisphere_url)
+
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -72,20 +75,15 @@ def scrape():
         soup = BeautifulSoup(specific_url_html, 'html.parser')
     
         imageurl = main_url + soup.find('img', class_='wide-image')['src']
-    
-        # dictionary for title/url for images
-        # hemis_dict = {}
-        # hemis_dict['title'] = title
-        # hemis_dict['image_url'] = imageurl
         
-        hemis_image_urls.append({"title" : title, "image_url" : imageurl})
-
+        hemis_image_urls.append({"title": title, "img_url": imageurl})
+    
 # Dictionary for Scraped html
     mars_dict = {
         "news_title": news_title,
         "news_p": news_p,
         "featured_image_url": featured_image_url,
         "facts_html_table": facts_html_table,
-        "hemis_image_urls": hemis_image_urls
-    }
-    return mars_dict
+        "hemisphere_image_urls": hemis_image_urls
+        }
+    return
