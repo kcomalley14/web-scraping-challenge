@@ -62,22 +62,22 @@ def scrape():
 
     for img in hemis:
         title = img.find('h3').text
-
+        
         # need link to full res image
         specific_url = img.find('a', class_='itemLink product-item')['href']
-    
+        
         # visit link for image
         browser.visit(main_url + specific_url)
-    
+        
         # Now get html for page to find src to add to url list
         specific_url_html = browser.html
-    
+        
         soup = BeautifulSoup(specific_url_html, 'html.parser')
-    
+        
         imageurl = main_url + soup.find('img', class_='wide-image')['src']
         
         hemis_image_urls.append({"title": title, "img_url": imageurl})
-    
+        
 # Dictionary for Scraped html
     mars_dict = {
         "news_title": news_title,
@@ -86,4 +86,4 @@ def scrape():
         "facts_html_table": facts_html_table,
         "hemisphere_image_urls": hemis_image_urls
         }
-    return
+    return mars_dict

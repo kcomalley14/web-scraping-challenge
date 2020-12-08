@@ -23,11 +23,35 @@
         <h2>Latest Mars News</h2>
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-12">
         <h4>{{ mars_dict.news_title }}</h4>
         <p>{{ mars_dict.news_p }}</p>
       </div>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+        <h2 class="card-title">Featured Mars Image</h2>
+      <img src='{{ mars_dict.featured_image_url | safe}}' class="card-img-bottom" alt="Mars Featured Image">
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-4 col-lg-4">> 
+      <h3>Mars Facts</h3>
+      {{ mars_dict.facts_html_table | safe}}
+    </div>
+    
+    <div class="row">
+        {% for img in mars_dict.hemis_image_urls %}
+        <div class="col-6">
+          
+            <img src="{{ img.img_url | safe}}" alt="Hemisphere Images">
+            <div>
+              <h5>{{ img.title | safe}}</h5>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
     </div>
 </body>
 
