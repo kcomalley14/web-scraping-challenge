@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 import pymongo
 import warnings
+import time
 warnings.filterwarnings('ignore')
 
 def init_browser():
@@ -36,8 +37,19 @@ def scrape():
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
     
-    find_image_url = soup.find('article')['style'].replace('background-image: url(','').replace(');', '')[1:-1]
-    featured_image_url = image_url + find_image_url
+    # find_image_url = soup.find('article')['style'].replace('background-image: url(','').replace(');', '')[1:-1]
+    # find_image_url = soup.find('img')['src']
+    # featured_image_url = image_url + find_image_url
+
+    browser.find_by_id("full_image").click()
+    time.sleep(2)
+    browser.find_link_by_partial_text("more info").click()
+    time.sleep(2)
+    soup= BeautifulSoup(browser.html, 'html.parser')
+    search = soup.find("figure", class_= "lede")
+    find_image_url = search.a.img['src']
+
+    featured_image_url= "https://www.jpl.nasa.gov" + find_image_url
 
     # Mars Facts scraped
     facts_url = 'https://space-facts.com/mars/'
@@ -75,8 +87,10 @@ def scrape():
         soup = BeautifulSoup(specific_url_html, 'html.parser')
         
         imageurl = main_url + soup.find('img', class_='wide-image')['src']
+
+        hemis_dict = {"title": title, "img_url": imageurl}
         
-        hemis_image_urls.append({"title": title, "img_url": imageurl})
+        hemis_image_urls.append(hemis_dict)
         
 # Dictionary for Scraped html
     mars_dict = {
@@ -86,4 +100,6 @@ def scrape():
         "facts_html_table": facts_html_table,
         "hemisphere_image_urls": hemis_image_urls
         }
+
     return mars_dict
+

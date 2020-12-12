@@ -33,7 +33,7 @@
 
     <div class="col-12 col-sm-12 col-md-8 col-lg-8">
         <h2 class="card-title">Featured Mars Image</h2>
-      <img src='{{ mars_dict.featured_image_url | safe}}' class="card-img-bottom" alt="Mars Featured Image">
+      <img src='{{ mars_dict.featured_image_url | safe}}' width=100% class="card-img-bottom" alt="Mars Featured Image">
     </div>
 
     <div class="col-12 col-sm-12 col-md-4 col-lg-4">> 
@@ -41,18 +41,37 @@
       {{ mars_dict.facts_html_table | safe}}
     </div>
     
-    <div class="row">
+    <!-- <div class="row">
         {% for img in mars_dict.hemis_image_urls %}
         <div class="col-6">
           
-            <img src="{{ img.img_url | safe}}" alt="Hemisphere Images">
+            <img src="{{ img.imageurl | safe }}" alt="Hemisphere Images">
             <div>
               <h5>{{ img.title | safe}}</h5>
             </div>
           </div>
         </div>
         {% endfor %}
-    </div>
+    </div> -->
+
+    <div class="card-deck">
+      <hr>
+      <div class="col-md-12">
+          <div class="row">
+              {% for item in mars_dict.hemis_image_urls %}
+              <div class="col-md-6">
+                  <div class="card text-white bg-dark" style="margin: 30px;">
+                      <img class="card-img-top" src="{{ item.img_url }}" />
+                      <div class="card-body">
+                          <p class="card-text">{{ item.title }}</p>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+
 </body>
 
 </html>
